@@ -1,0 +1,45 @@
+import java.util.*;
+
+class Solution {
+    public List<Integer> majorityElement(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        int n = nums.length;
+
+        if (n == 0) return res;
+
+        int first = 0, second = 1; // initialize different
+        int fc = 0, sc = 0;
+
+        // Step 1: Find candidates
+        for (int num : nums) {
+            if (num == first) {
+                fc++;
+            } else if (num == second) {
+                sc++;
+            } else if (fc == 0) {
+                first = num;
+                fc = 1;
+            } else if (sc == 0) {
+                second = num;
+                sc = 1;
+            } else {
+                fc--;
+                sc--;
+            }
+        }
+
+        // Step 2: Verify candidates
+        fc = 0;
+        sc = 0;
+
+        for (int num : nums) {
+            if (num == first) fc++;
+            else if (num == second) sc++;
+        }
+
+        if (fc > n / 3) res.add(first);
+        if (sc > n / 3) res.add(second);
+
+        return res;
+    }
+}
